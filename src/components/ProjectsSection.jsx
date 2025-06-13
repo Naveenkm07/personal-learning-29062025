@@ -23,7 +23,7 @@ const ProjectsSection = () => {
         technologies: ['Node.js', 'Express', 'MongoDB', 'REST API'],
         description: 'Develop a robust backend for an e-commerce platform, handling user authentication, product management, order processing, and payment integration. Focus on scalability and security.',
         details: 'This project requires building a complete API with user authentication (JWT), product CRUD operations, shopping cart and order management, and integrating with a simulated payment gateway. Knowledge of Mongoose for MongoDB and Express middleware is essential.',
-        image: '/images/web-backend.png',
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
       },
       {
         id: 2,
@@ -33,7 +33,7 @@ const ProjectsSection = () => {
         technologies: ['React', 'HTML', 'CSS', 'JavaScript'],
         description: 'Create a modern, responsive personal portfolio website to showcase your projects and skills. Implement smooth animations and a clean UI/UX.',
         details: 'Design and develop a single-page application using React. Include sections for About, Projects, Skills, and Contact. Pay attention to responsive design principles and accessibility. Deployment to a static hosting service is a plus.',
-        image: '/images/portfolio.png',
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
       },
       {
         id: 3,
@@ -43,7 +43,7 @@ const ProjectsSection = () => {
         technologies: ['Python', 'TensorFlow', 'Keras', 'Jupyter Notebook'],
         description: 'Build and train a Convolutional Neural Network (CNN) to classify images from a given dataset. Experiment with different architectures and optimization techniques.',
         details: 'Implement a CNN from scratch or use pre-trained models (transfer learning) with TensorFlow/Keras. Work with image datasets like CIFAR-10 or Fashion MNIST. Focus on data preprocessing, model training, evaluation metrics, and hyperparameter tuning.',
-        image: '/images/image-rec.png',
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
       },
       {
         id: 4,
@@ -53,7 +53,7 @@ const ProjectsSection = () => {
         technologies: ['React Native', 'Expo', 'Redux (optional)'],
         description: 'Develop a cross-platform mobile to-do list application with features like task creation, marking as complete, and push notifications.',
         details: 'Use React Native and Expo to build a native-feeling mobile app for both iOS and Android. Implement local storage for tasks. Consider adding Redux for state management for more complex features.',
-        image: '/images/mobile-app.png',
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
       },
       {
         id: 5,
@@ -63,7 +63,7 @@ const ProjectsSection = () => {
         technologies: ['Python', 'Pandas', 'Scikit-learn', 'Matplotlib', 'Dash/Streamlit'],
         description: 'Create an interactive dashboard that visualizes data and provides predictive insights using machine learning models. Use real-world or simulated datasets.',
         details: 'Clean and preprocess a dataset. Build and train a regression or classification model. Develop a web-based dashboard using libraries like Dash or Streamlit to display predictions, model performance, and key data visualizations. Focus on data storytelling.',
-        image: '/images/data-science.png',
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
       },
       {
         id: 6,
@@ -73,7 +73,7 @@ const ProjectsSection = () => {
         technologies: ['AWS/Azure/GCP', 'Docker', 'Kubernetes', 'Jenkins/GitLab CI'],
         description: 'Set up an automated CI/CD pipeline for deploying a simple web application to a cloud platform. Focus on containerization and orchestration.',
         details: 'Choose a cloud provider (AWS, Azure, or GCP). Containerize a sample web application using Docker. Set up a CI/CD pipeline using Jenkins, GitLab CI, or similar, to build, test, and deploy the application to a Kubernetes cluster or a serverless environment.',
-        image: '/images/devops.png',
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
       },
     ],
   };
