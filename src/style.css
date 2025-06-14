@@ -926,6 +926,7 @@ select.form-control {
 
 /* Dashboard Grid */
 .dashboard-grid {
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   gap: var(--space-24);
@@ -978,6 +979,11 @@ select.form-control {
   .dashboard-row {
     gap: var(--space-12);
   }
+=======
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-24);
+>>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
 }
 
 /* Activity Contributions */
@@ -1500,6 +1506,13 @@ select.form-control {
 
 /* Mobile and Tablet Responsive Design */
 @media (max-width: 1024px) {
+<<<<<<< HEAD
+=======
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+>>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
   .stats-grid {
     grid-template-columns: 1fr;
   }
@@ -6359,6 +6372,7 @@ select.form-control {
   .current-level-details h4 {
     font-size: var(--font-size-md);
   }
+<<<<<<< HEAD
 }
 
 /* Code Editor Section Styles */
@@ -6810,4 +6824,6 @@ select.form-control {
 .syntax-preview {
   animation: fadeInUp 0.5s ease-out forwards;
   animation-delay: 0.5s;
+=======
+>>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
 }
