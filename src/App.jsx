@@ -7,10 +7,7 @@ import AssessmentSection from './components/AssessmentSection';
 import LearningPathSection from './components/LearningPathSection';
 import ProjectsSection from './components/ProjectsSection';
 import LeetPromptSection from './components/LeetPromptSection';
-<<<<<<< HEAD
 import CodeEditorSection from './components/CodeEditorSection';
-=======
->>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
 import AIFlowBuilderSection from './components/AIFlowBuilderSection';
 import CodeQuestSection from './components/CodeQuestSection';
 import EchoDeepakSection from './components/EchoDeepakSection';
@@ -156,7 +153,6 @@ function App() {
             <AssessmentSection />
             <LearningPathSection />
             <div className="dashboard-grid" id="dashboardSection">
-<<<<<<< HEAD
               <div className="dashboard-row">
                 <ActivitySection />
                 <LinkedInSection />
@@ -174,19 +170,6 @@ function App() {
                 <CodeQuestSection />
                 <ProjectsSection />
               </div>
-=======
-              <h2>Dashboard Content</h2>
-              <p>This is your main dashboard area.</p>
-              <ActivitySection />
-              <LinkedInSection />
-              <SkillsSection />
-              <div className="stats-section"><div className="stats-grid">
-                <LeetPromptStats />
-                <ProjectStats />
-              </div></div>
-              <CodeQuestSection />
-              <ProjectsSection />
->>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
             </div>
             <CommunitySection />
             <TestimonialsSection />
@@ -223,11 +206,8 @@ function App() {
         return <TestimonialsSection />;
       case 'pricingSection':
         return <PricingSection />;
-<<<<<<< HEAD
       case 'codeEditorSection':
         return <CodeEditorSection />;
-=======
->>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
       default:
         return <DashboardSection />;
     }

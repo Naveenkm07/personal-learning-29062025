@@ -13,6 +13,7 @@ const CodeEditorSection = () => {
   const [autoSave, setAutoSave] = useState(true);
   const [savedCode, setSavedCode] = useState({});
   const iframeRef = useRef(null);
+  const [activeHtmlTab, setActiveHtmlTab] = useState('console'); // 'console' or 'preview'
 
   const languages = [
     { value: 'javascript', label: 'JavaScript', icon: 'fab fa-js-square' },
@@ -392,37 +393,23 @@ GROUP BY age_group;`
     }
   }, [code, autoSave, selectedLanguage]);
 
+  useEffect(() => {
+    if (selectedLanguage === 'html' && activeHtmlTab === 'preview' && iframeRef.current) {
+      executeHTML();
+    }
+  }, [code, selectedLanguage, activeHtmlTab]);
+
   const executeCode = async () => {
     setIsRunning(true);
     setOutput('');
-
-    try {
-      switch (selectedLanguage) {
-        case 'javascript':
-          await executeJavaScript();
-          break;
-        case 'html':
-          executeHTML();
-          break;
-        case 'python':
-        case 'java':
-        case 'cpp':
-        case 'c':
-        case 'php':
-        case 'ruby':
-        case 'go':
-        case 'rust':
-        case 'sql':
-          await executeWithAPI();
-          break;
-        default:
-          setOutput('Language not supported for execution');
-      }
-    } catch (error) {
-      setOutput(`Error: ${error.message}`);
-    } finally {
-      setIsRunning(false);
+    if (selectedLanguage === 'javascript') {
+      await executeJavaScript();
+    } else if (selectedLanguage === 'html') {
+      executeHTML();
+    } else {
+      await executeWithAPI();
     }
+    setIsRunning(false);
   };
 
   const executeJavaScript = async () => {
@@ -457,8 +444,10 @@ GROUP BY age_group;`
 
   const executeHTML = () => {
     if (iframeRef.current) {
-      const iframe = iframeRef.current;
-      iframe.srcdoc = code;
+      iframeRef.current.contentWindow.document.open();
+      iframeRef.current.contentWindow.document.write(code);
+      iframeRef.current.contentWindow.document.close();
+      setOutput('HTML rendered in preview tab.');
     }
   };
 
@@ -475,6 +464,11 @@ GROUP BY age_group;`
 
   const clearOutput = () => {
     setOutput('');
+    if (selectedLanguage === 'html' && iframeRef.current) {
+      iframeRef.current.contentWindow.document.open();
+      iframeRef.current.contentWindow.document.write('');
+      iframeRef.current.contentWindow.document.close();
+    }
   };
 
   const copyCode = () => {
@@ -625,13 +619,23 @@ GROUP BY age_group;`
               {selectedLanguage === 'html' ? (
                 <div className="html-output">
                   <div className="output-tabs">
-                    <button className="tab-button active">Console</button>
-                    <button className="tab-button">Preview</button>
+                    <button 
+                      className={`tab-button ${activeHtmlTab === 'console' ? 'active' : ''}`}
+                      onClick={() => setActiveHtmlTab('console')}
+                    >
+                      Console
+                    </button>
+                    <button 
+                      className={`tab-button ${activeHtmlTab === 'preview' ? 'active' : ''}`}
+                      onClick={() => setActiveHtmlTab('preview')}
+                    >
+                      Preview
+                    </button>
                   </div>
-                  <div className="output-text">
+                  <div className="output-text" style={{ display: activeHtmlTab === 'console' ? 'block' : 'none' }}>
                     <pre>{output || 'No output yet. Run your code to see results.'}</pre>
                   </div>
-                  <div className="html-preview" style={{ display: 'none' }}>
+                  <div className="html-preview" style={{ display: activeHtmlTab === 'preview' ? 'block' : 'none' }}>
                     <iframe 
                       ref={iframeRef}
                       title="HTML Preview"

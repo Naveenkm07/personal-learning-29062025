@@ -50,13 +50,10 @@ const appData = {
     {"name": "Personalized Roadmap", "icon": "map", "active": false, "sectionId": "learningPathSection"},
     {"name": "Projects", "icon": "folder", "active": false, "sectionId": "projectsSection"},
     {"name": "LeetPrompt", "icon": "code", "active": false, "sectionId": "leetpromptSection"},
-<<<<<<< HEAD
     {"name": "Code Editor", "icon": "edit", "active": false, "sectionId": "codeEditorSection"},
-=======
->>>>>>> 50902251a568be73a10c749b69d04c7555dcd6f5
     {"name": "AI Flow Builder", "icon": "sitemap", "active": false, "sectionId": "aiFlowBuilderSection"},
     {"name": "CodeQuest", "icon": "trophy", "active": false, "sectionId": "codeQuestSection"},
-    {"name": "EchoDeepak", "icon": "comments", "active": false, "sectionId": "echoDeepakSection"}
+    {"name": "Naveenkm07", "icon": "comments", "active": false, "sectionId": "echoDeepakSection"}
   ],
   "additional_nav_items": [
     {"name": "Courses", "icon": "book", "sectionId": "coursesSection"},
