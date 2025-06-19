@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './style.css'; // Import the main style.css
 import appData from './data.js'; // Import appData
+import { FaTrophy, FaStar, FaPuzzlePiece, FaFolderOpen, FaFire, FaUserCircle } from 'react-icons/fa';
 
 // Import all section components
 import AssessmentSection from './components/AssessmentSection';
@@ -60,6 +61,7 @@ const DashboardHeader = () => {
   const [leetpromptCount, setLeetpromptCount] = useState(0);
   const [projectsCount, setProjectsCount] = useState(0);
   const [linkedinStreak, setLinkedinStreak] = useState(0);
+  const [progress, setProgress] = useState(0); // Progress to next level
 
   useEffect(() => {
     const fetchData = () => {
@@ -69,41 +71,69 @@ const DashboardHeader = () => {
         setLeetpromptCount(47);
         setProjectsCount(12);
         setLinkedinStreak(8);
+        setProgress(0.8); // 80% to next level
       }, 500);
     };
     fetchData();
   }, []);
 
   return (
-    <header className="dashboard-header">
-      <div className="header-content">
-        <div className="welcome-section">
-          <h1>Hi, there!</h1>
-          <div className="header-stats">
-            <div className="stat-item">
-              <span className="stat-label">HiDevs Score</span>
-              <span className="stat-value" id="hidevs-score">{hidevsScore}</span>
+    <header className="dashboard-header-modern">
+      <div className="header-content-modern">
+        <div className="user-greeting">
+          <FaUserCircle className="user-avatar" />
+          <div>
+            <h1>Hi, Naveen!</h1>
+            <span className="dashboard-quote">"Keep pushing your limits!"</span>
+          </div>
+        </div>
+        <div className="header-stats-modern">
+          <div className="stat-card">
+            <FaTrophy className="stat-icon gold" />
+            <div>
+              <span className="stat-value">{hidevsScore}</span>
+              <span className="stat-label">Rank Points</span>
             </div>
-            <div className="stat-item">
+          </div>
+          <div className="stat-card">
+            <FaStar className="stat-icon yellow" />
+            <div>
+              <span className="stat-value">{currentLevel}</span>
               <span className="stat-label">Current Level</span>
-              <span className="stat-value" id="current-level">{currentLevel}</span>
+            </div>
+          </div>
+          <div className="stat-card">
+            <FaPuzzlePiece className="stat-icon blue" />
+            <div>
+              <span className="stat-value">{leetpromptCount}</span>
+              <span className="stat-label">LeetPrompt</span>
+            </div>
+          </div>
+          <div className="stat-card">
+            <FaFolderOpen className="stat-icon purple" />
+            <div>
+              <span className="stat-value">{projectsCount}</span>
+              <span className="stat-label">Projects</span>
+            </div>
+          </div>
+          <div className="stat-card">
+            <FaFire className="stat-icon orange" />
+            <div>
+              <span className="stat-value">{linkedinStreak}</span>
+              <span className="stat-label">LinkedIn Streak</span>
             </div>
           </div>
         </div>
-        
-        <div className="header-counters">
-          <div className="counter-item">
-            <span className="counter-value" id="leetprompt-count">{leetpromptCount}</span>
-            <span className="counter-label">LeetPrompt</span>
+        <div className="progress-section">
+          <span>Progress to next level</span>
+          <div className="progress-bar-modern">
+            <div className="progress-fill-modern" style={{ width: `${progress * 100}%` }}></div>
           </div>
-          <div className="counter-item">
-            <span className="counter-value" id="projects-count">{projectsCount}</span>
-            <span className="counter-label">Projects</span>
-          </div>
-          <div className="counter-item">
-            <span className="counter-value" id="linkedin-streak">{linkedinStreak}</span>
-            <span className="counter-label">LinkedIn Streak</span>
-          </div>
+          <span className="progress-percent">{Math.round(progress * 100)}%</span>
+        </div>
+        <div className="badges-section">
+          <span className="badge streak">🔥 7-day Streak</span>
+          <span className="badge project">🏅 Project Pro</span>
         </div>
       </div>
     </header>
@@ -220,7 +250,7 @@ function App() {
         <div className="sidebar-header">
           <div className="logo">
             <i className="fas fa-code"></i>
-            <span className="logo-text">HiDevs</span>
+            <span className="logo-text">Naveenkm07</span>
           </div>
           <div className="sidebar-controls">
             <button className="theme-toggle" id="themeToggle" aria-label="Toggle theme" onClick={toggleTheme}>

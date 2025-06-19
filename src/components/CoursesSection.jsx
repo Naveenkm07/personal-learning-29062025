@@ -1,10 +1,280 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+const getInitialProgress = () => {
+  try {
+    return JSON.parse(localStorage.getItem('courseProgress')) || {};
+  } catch {
+    return {};
+  }
+};
+
+const featuredTracks = [
+  {
+    id: 'fullstack',
+    title: 'Full Stack Web Developer',
+    image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&w=400',
+    rating: 4.7,
+    ratingsCount: '44K',
+    hours: 678,
+    badge: 'Bestseller',
+  },
+  {
+    id: 'digital-marketer',
+    title: 'Digital Marketer',
+    image: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400',
+    rating: 4.5,
+    ratingsCount: '5.3K',
+    hours: 288,
+    badge: '',
+  },
+  {
+    id: 'data-scientist',
+    title: 'Data Scientist',
+    image: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&w=400',
+    rating: 4.6,
+    ratingsCount: '27K',
+    hours: 468,
+    badge: '',
+  },
+];
+
+const categoryChips = [
+  { id: 'web-dev', name: 'Web Development', learners: '10M+' },
+  { id: 'python', name: 'Python', learners: '4M+' },
+  { id: 'ml', name: 'Machine Learning', learners: '2M+' },
+  { id: 'ai', name: 'AI', learners: '1M+' },
+  { id: 'data-science', name: 'Data Science', learners: '7M+' },
+  { id: 'it-cert', name: 'IT Certifications', learners: '2M+' },
+  { id: 'leadership', name: 'Leadership', learners: '1M+' },
+  { id: 'comm', name: 'Communication', learners: '1M+' },
+];
+
+const sampleCourses = [
+  // Web Development
+  {
+    id: 101,
+    title: 'The Complete 2024 Web Development Bootcamp',
+    image: 'https://img-c.udemycdn.com/course/480x270/1565838_e54e_16.jpg',
+    instructor: 'Dr. Angela Yu',
+    rating: 4.7,
+    ratingsCount: 320000,
+    price: 499,
+    oldPrice: 3199,
+    badge: 'Bestseller',
+    premium: true,
+    category: 'web-dev',
+  },
+  {
+    id: 102,
+    title: 'React - The Complete Guide 2024 (incl. React Router & Redux)',
+    image: 'https://img-c.udemycdn.com/course/480x270/1362070_b9a1_2.jpg',
+    instructor: 'Maximilian Schwarzmüller',
+    rating: 4.8,
+    ratingsCount: 180000,
+    price: 599,
+    oldPrice: 3499,
+    badge: 'Premium',
+    premium: true,
+    category: 'web-dev',
+  },
+  // Python
+  {
+    id: 201,
+    title: 'Complete Python Developer in 2024: Zero to Mastery',
+    image: 'https://img-c.udemycdn.com/course/480x270/2473048_c55b_4.jpg',
+    instructor: 'Andrei Neagoie',
+    rating: 4.8,
+    ratingsCount: 120000,
+    price: 699,
+    oldPrice: 2999,
+    badge: 'Bestseller',
+    premium: true,
+    category: 'python',
+  },
+  {
+    id: 202,
+    title: 'Automate the Boring Stuff with Python Programming',
+    image: 'https://img-c.udemycdn.com/course/480x270/933100_8c52_8.jpg',
+    instructor: 'Al Sweigart',
+    rating: 4.7,
+    ratingsCount: 90000,
+    price: 399,
+    oldPrice: 1999,
+    badge: '',
+    premium: false,
+    category: 'python',
+  },
+  // Machine Learning
+  {
+    id: 301,
+    title: 'Machine Learning A-Z™: AI, Python & R + ChatGPT Bonus [2024]',
+    image: 'https://img-c.udemycdn.com/course/480x270/950390_270f_3.jpg',
+    instructor: 'Kirill Eremenko, Hadelin de Ponteves',
+    rating: 4.6,
+    ratingsCount: 180000,
+    price: 799,
+    oldPrice: 3499,
+    badge: 'Bestseller',
+    premium: true,
+    category: 'ml',
+  },
+  {
+    id: 302,
+    title: 'Deep Learning Specialization',
+    image: 'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/6Qw6Qw6Qw6Qw6Qw6Qw6Qw6/6Qw6Qw6Qw6Qw6Qw6Qw6Qw6/DeepLearningAI_Logo.png',
+    instructor: 'Andrew Ng, DeepLearning.AI',
+    rating: 4.9,
+    ratingsCount: 48000,
+    price: 899,
+    oldPrice: 3999,
+    badge: 'Premium',
+    premium: true,
+    category: 'ml',
+  },
+  // AI
+  {
+    id: 401,
+    title: 'AI For Everyone',
+    image: 'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/6Qw6Qw6Qw6Qw6Qw6Qw6Qw6/6Qw6Qw6Qw6Qw6Qw6Qw6Qw6/DeepLearningAI_Logo.png',
+    instructor: 'Andrew Ng',
+    rating: 4.8,
+    ratingsCount: 48000,
+    price: 499,
+    oldPrice: 2499,
+    badge: '',
+    premium: false,
+    category: 'ai',
+  },
+  {
+    id: 402,
+    title: 'Artificial Intelligence A-Z™: Build an AI with LLM & ChatGPT',
+    image: 'https://img-c.udemycdn.com/course/480x270/1219332_bdd7_4.jpg',
+    instructor: 'Hadelin de Ponteves, Kirill Eremenko',
+    rating: 4.7,
+    ratingsCount: 65000,
+    price: 799,
+    oldPrice: 3499,
+    badge: 'Bestseller',
+    premium: true,
+    category: 'ai',
+  },
+  // Data Science
+  {
+    id: 501,
+    title: 'Data Science and Machine Learning Bootcamp with R',
+    image: 'https://img-c.udemycdn.com/course/480x270/903744_8eb2_2.jpg',
+    instructor: 'Jose Portilla',
+    rating: 4.7,
+    ratingsCount: 70000,
+    price: 599,
+    oldPrice: 2999,
+    badge: '',
+    premium: false,
+    category: 'data-science',
+  },
+  {
+    id: 502,
+    title: 'The Data Science Course 2024: Complete Data Science Bootcamp',
+    image: 'https://img-c.udemycdn.com/course/480x270/1754098_8bdf_6.jpg',
+    instructor: '365 Careers',
+    rating: 4.6,
+    ratingsCount: 120000,
+    price: 699,
+    oldPrice: 2999,
+    badge: 'Bestseller',
+    premium: true,
+    category: 'data-science',
+  },
+  // IT Certifications
+  {
+    id: 601,
+    title: 'AWS Certified Solutions Architect – Associate 2024',
+    image: 'https://img-c.udemycdn.com/course/480x270/2196488_8fc7_10.jpg',
+    instructor: 'Stephane Maarek',
+    rating: 4.7,
+    ratingsCount: 180000,
+    price: 899,
+    oldPrice: 3999,
+    badge: 'Bestseller',
+    premium: true,
+    category: 'it-cert',
+  },
+  {
+    id: 602,
+    title: 'CompTIA A+ Certification (220-1101 & 220-1102)',
+    image: 'https://img-c.udemycdn.com/course/480x270/567828_67d0.jpg',
+    instructor: 'Mike Meyers',
+    rating: 4.6,
+    ratingsCount: 120000,
+    price: 799,
+    oldPrice: 3499,
+    badge: '',
+    premium: false,
+    category: 'it-cert',
+  },
+  // Leadership
+  {
+    id: 701,
+    title: 'Leadership: Practical Leadership Skills',
+    image: 'https://img-c.udemycdn.com/course/480x270/855012_9638_2.jpg',
+    instructor: 'Chris Croft',
+    rating: 4.5,
+    ratingsCount: 65000,
+    price: 499,
+    oldPrice: 2499,
+    badge: '',
+    premium: false,
+    category: 'leadership',
+  },
+  {
+    id: 702,
+    title: 'The Science of Leadership',
+    image: 'https://img-c.udemycdn.com/course/480x270/1501104_967d_13.jpg',
+    instructor: 'Gregory Caremans',
+    rating: 4.6,
+    ratingsCount: 32000,
+    price: 599,
+    oldPrice: 2999,
+    badge: 'Premium',
+    premium: true,
+    category: 'leadership',
+  },
+  // Communication
+  {
+    id: 801,
+    title: 'Communication Skills Mastery',
+    image: 'https://img-c.udemycdn.com/course/480x270/637930_9a22_4.jpg',
+    instructor: 'TJ Walker',
+    rating: 4.6,
+    ratingsCount: 90000,
+    price: 399,
+    oldPrice: 1999,
+    badge: '',
+    premium: false,
+    category: 'comm',
+  },
+  {
+    id: 802,
+    title: 'Successful Negotiation: Master Your Negotiating Skills',
+    image: 'https://img-c.udemycdn.com/course/480x270/637930_9a22_4.jpg',
+    instructor: 'Chris Croft',
+    rating: 4.7,
+    ratingsCount: 65000,
+    price: 499,
+    oldPrice: 2499,
+    badge: 'Premium',
+    premium: true,
+    category: 'comm',
+  },
+].map(course => ({ ...course, price: 0, oldPrice: 0 }));
 
 const CoursesSection = () => {
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterDifficulty, setFilterDifficulty] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [progress, setProgress] = useState(getInitialProgress());
+  const [activeCategory, setActiveCategory] = useState('data-science');
 
   const courseData = {
     categories: [
@@ -32,6 +302,7 @@ const CoursesSection = () => {
         description: 'An introductory course to the exciting world of Generative AI, covering basic concepts, models like GANs and Transformers, and practical applications.',
         details: 'This course covers neural networks, autoencoders, GANs (Generative Adversarial Networks), and an introduction to large language models (LLMs) and transformer architectures. Includes hands-on labs with Python and TensorFlow/PyTorch.',
         image: 'https://via.placeholder.com/400x250/21808D/FFFFFF?text=Generative+AI',
+        lessonList: Array.from({ length: 20 }, (_, i) => `Lesson ${i + 1}: Topic ${(i + 1)}`),
       },
       {
         id: 2,
@@ -43,6 +314,7 @@ const CoursesSection = () => {
         description: 'Deep dive into Python\'s capabilities for data manipulation, analysis, and visualization. Master libraries like Pandas, NumPy, and Matplotlib.',
         details: 'Learn advanced data cleaning with Pandas, efficient numerical computing with NumPy, and powerful data visualization with Matplotlib and Seaborn. Covers statistical analysis, time series data, and an introduction to machine learning prep.',
         image: 'https://via.placeholder.com/400x250/32B8C6/FFFFFF?text=Python+DS',
+        lessonList: Array.from({ length: 30 }, (_, i) => `Lesson ${i + 1}: Topic ${(i + 1)}`),
       },
       {
         id: 3,
@@ -54,6 +326,7 @@ const CoursesSection = () => {
         description: 'Build modern, interactive user interfaces with React.js. Learn component-based architecture, state management, and API integration.',
         details: 'Covers React fundamentals, JSX, props, state, hooks (useState, useEffect, useContext), routing with React Router, and fetching data from RESTful APIs. Project-based learning to build a complete web application.',
         image: 'https://via.placeholder.com/400x250/1F2121/FFFFFF?text=ReactJS',
+        lessonList: Array.from({ length: 25 }, (_, i) => `Lesson ${i + 1}: Topic ${(i + 1)}`),
       },
       {
         id: 4,
@@ -65,6 +338,7 @@ const CoursesSection = () => {
         description: 'Master container orchestration with Kubernetes, CI/CD pipelines, and cloud-native application deployment on AWS, Azure, or GCP.',
         details: 'This advanced course focuses on Docker, Kubernetes deployments, services, ingress, and persistent storage. Implement CI/CD with Jenkins/GitLab CI, monitor with Prometheus/Grafana, and explore serverless architectures. Hands-on labs with cloud platforms.',
         image: 'https://via.placeholder.com/400x250/626C71/FFFFFF?text=Kubernetes',
+        lessonList: Array.from({ length: 40 }, (_, i) => `Lesson ${i + 1}: Topic ${(i + 1)}`),
       },
       {
         id: 5,
@@ -76,9 +350,14 @@ const CoursesSection = () => {
         description: 'Develop beautiful, natively compiled applications for mobile, web, and desktop from a single codebase using Flutter and Dart.',
         details: 'Learn Dart programming, Flutter widgets, state management (Provider, Bloc), navigation, working with local databases, and consuming REST APIs. Build multiple real-world applications throughout the course.',
         image: 'https://via.placeholder.com/400x250/945240/FFFFFF?text=Flutter',
+        lessonList: Array.from({ length: 35 }, (_, i) => `Lesson ${i + 1}: Topic ${(i + 1)}`),
       },
     ],
   };
+
+  useEffect(() => {
+    localStorage.setItem('courseProgress', JSON.stringify(progress));
+  }, [progress]);
 
   const filteredCourses = courseData.courses.filter((course) => {
     const matchesCategory = filterCategory === 'all' || course.category === filterCategory;
@@ -97,124 +376,93 @@ const CoursesSection = () => {
     setSelectedCourse(null);
   };
 
+  const handleEnroll = (courseId) => {
+    setProgress(prev => ({
+      ...prev,
+      [courseId]: {
+        enrolled: true,
+        completedLessons: [],
+      },
+    }));
+  };
+
+  const handleCompleteLesson = (courseId, lessonIdx) => {
+    setProgress(prev => {
+      const courseProgress = prev[courseId] || { enrolled: true, completedLessons: [] };
+      if (!courseProgress.completedLessons.includes(lessonIdx)) {
+        return {
+          ...prev,
+          [courseId]: {
+            ...courseProgress,
+            completedLessons: [...courseProgress.completedLessons, lessonIdx],
+          },
+        };
+      }
+      return prev;
+    });
+  };
+
+  const getCourseProgress = (courseId, totalLessons) => {
+    const courseProgress = progress[courseId];
+    if (!courseProgress) return 0;
+    return Math.round((courseProgress.completedLessons.length / totalLessons) * 100);
+  };
+
   return (
-    <section className="content-section card" id="coursesSection">
+    <section className="content-section card udemy-courses-section" id="coursesSection">
       <div className="card__body">
-        <div className="courses-header">
-          <h1>Our Courses</h1>
-          <p>Structured learning paths designed to help you master in-demand tech skills and advance your career.</p>
+        {/* Career Accelerator Hero Cards */}
+        <div className="udemy-hero-row">
+          <h2>Ready to reimagine your career?</h2>
+          <p>Get the skills and real-world experience employers want with Career Accelerators.</p>
+          <div className="udemy-hero-cards">
+            {featuredTracks.map(track => (
+              <div className="udemy-hero-card" key={track.id}>
+                <img src={track.image} alt={track.title} />
+                <div className="udemy-hero-card-content">
+                  <h3>{track.title}</h3>
+                  <div className="udemy-hero-meta">
+                    <span className="udemy-hero-rating"><i className="fas fa-star"></i> {track.rating} <span className="udemy-hero-rating-count">({track.ratingsCount} ratings)</span></span>
+                    <span className="udemy-hero-hours">{track.hours} total hours</span>
+                  </div>
+                  {track.badge && <span className="udemy-hero-badge">{track.badge}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="udemy-hero-all-btn">All Career Accelerators</button>
         </div>
 
-        {!selectedCourse ? (
-          <div className="course-list-view">
-            <div className="course-filters">
-              <div className="filter-group">
-                <label htmlFor="category-filter">Filter by Category:</label>
-                <select
-                  id="category-filter"
-                  className="form-control"
-                  value={filterCategory}
-                  onChange={(e) => setFilterCategory(e.target.value)}
-                >
-                  {courseData.categories.map((category) => (
-                    <option key={category.id} value={category.id}>{category.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="filter-group">
-                <label htmlFor="difficulty-filter">Filter by Difficulty:</label>
-                <select
-                  id="difficulty-filter"
-                  className="form-control"
-                  value={filterDifficulty}
-                  onChange={(e) => setFilterDifficulty(e.target.value)}
-                >
-                  {courseData.difficulties.map((difficulty) => (
-                    <option key={difficulty.id} value={difficulty.id}>{difficulty.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="search-group">
-                <label htmlFor="course-search">Search Courses:</label>
-                <div className="search-input-wrapper">
-                  <input
-                    type="text"
-                    id="course-search"
-                    className="form-control"
-                    placeholder="Search by title or keywords..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <i className="fas fa-search"></i>
-                </div>
-              </div>
-            </div>
-
-            <div className="course-grid">
-              {filteredCourses.length > 0 ? (
-                filteredCourses.map((course) => (
-                  <div className="course-card" key={course.id} onClick={() => handleCourseClick(course)}>
-                    <div className="card__body">
-                      <img src={course.image} alt={course.title} className="course-card-image" />
-                      <div className="course-card-content">
-                        <h3>{course.title}</h3>
-                        <p className="course-category">Category: {courseData.categories.find(c => c.id === course.category)?.name}</p>
-                        <p className="course-meta">
-                          <span><i className="fas fa-clock"></i> {course.duration}</span>
-                          <span><i className="fas fa-book-open"></i> {course.lessons} Lessons</span>
-                        </p>
-                        <p className="course-difficulty difficulty-badge {course.difficulty}">{course.difficulty}</p>
-                        <button className="btn btn--sm btn--primary view-course-btn">
-                          <i className="fas fa-info-circle"></i> View Details
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="no-courses-found">
-                  <i className="fas fa-book-open"></i>
-                  <h3>No Courses Found</h3>
-                  <p>Try adjusting your filters or search terms.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="course-detail-view">
-            <button className="btn btn--outline back-button" onClick={handleBackToList}>
-              <i className="fas fa-arrow-left"></i> Back to Courses
+        {/* Category Chips */}
+        <div className="udemy-category-chips-row">
+          {categoryChips.map(cat => (
+            <button
+              key={cat.id}
+              className={`udemy-category-chip${activeCategory === cat.id ? ' active' : ''}`}
+              onClick={() => setActiveCategory(cat.id)}
+            >
+              {cat.name} <span className="udemy-chip-learners">{cat.learners} learners</span>
             </button>
-            <div className="detail-header">
-              <img src={selectedCourse.image} alt={selectedCourse.title} className="course-detail-image" />
-              <div className="course-detail-info">
-                <h2>{selectedCourse.title}</h2>
-                <p className="course-detail-category">Category: {courseData.categories.find(c => c.id === selectedCourse.category)?.name}</p>
-                <p className="course-detail-meta">
-                  <span><i className="fas fa-clock"></i> {selectedCourse.duration}</span>
-                  <span><i className="fas fa-book-open"></i> {selectedCourse.lessons} Lessons</span>
-                </p>
-                <p className="course-detail-difficulty difficulty-badge {selectedCourse.difficulty}">{selectedCourse.difficulty}</p>
+          ))}
+        </div>
+
+        {/* Course Grid/Carousel */}
+        <div className="udemy-course-grid">
+          {sampleCourses.filter(c => c.category === activeCategory).map(course => (
+            <div className="udemy-course-card" key={course.id}>
+              <img src={course.image} alt={course.title} onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/260x120?text=Course+Image'; }} />
+              <div className="udemy-course-card-content">
+                <h4>{course.title}</h4>
+                <div className="udemy-course-instructor">{course.instructor}</div>
+                <div className="udemy-course-meta">
+                  <span className="udemy-course-rating"><i className="fas fa-star"></i> {course.rating} <span className="udemy-course-rating-count">({course.ratingsCount})</span></span>
+                </div>
+                <span className="udemy-course-free">Free</span>
               </div>
             </div>
-            <div className="course-detail-content">
-              <h3>Description</h3>
-              <p>{selectedCourse.description}</p>
-              <h3>What You\'ll Learn</h3>
-              <p>{selectedCourse.details}</p>
-              <div className="course-actions">
-                <button className="btn btn--primary btn--lg">
-                  <i className="fas fa-play-circle"></i> Enroll Now
-                </button>
-                <button className="btn btn--secondary btn--lg">
-                  <i className="fas fa-share-alt"></i> Share Course
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
+        <button className="udemy-showall-btn">Show all {categoryChips.find(c => c.id === activeCategory)?.name} courses</button>
       </div>
     </section>
   );
