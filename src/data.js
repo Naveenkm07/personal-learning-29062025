@@ -53,7 +53,8 @@ const appData = {
     {"name": "Code Editor", "icon": "edit", "active": false, "sectionId": "codeEditorSection"},
     {"name": "AI Flow Builder", "icon": "sitemap", "active": false, "sectionId": "aiFlowBuilderSection"},
     {"name": "CodeQuest", "icon": "trophy", "active": false, "sectionId": "codeQuestSection"},
-    {"name": "Naveenkm07", "icon": "comments", "active": false, "sectionId": "echoDeepakSection"}
+    {"name": "Naveenkm07", "icon": "comments", "active": false, "sectionId": "echoDeepakSection"},
+    {"name": "AI Hub", "icon": "robot", "active": false, "sectionId": "aiHubSection"}
   ],
   "additional_nav_items": [
     {"name": "Courses", "icon": "book", "sectionId": "coursesSection"},

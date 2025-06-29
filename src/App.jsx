@@ -26,6 +26,7 @@ import LinkedInSection from './components/LinkedInSection';
 import SkillsSection from './components/SkillsSection';
 import LeetPromptStats from './components/LeetPromptStats';
 import ProjectStats from './components/ProjectStats';
+import AIHubSection from './components/AIHubSection';
 
 // NavLink Component
 const NavLink = ({ item, isActive, onClick }) => {
@@ -238,6 +239,8 @@ function App() {
         return <PricingSection />;
       case 'codeEditorSection':
         return <CodeEditorSection />;
+      case 'aiHubSection':
+        return <AIHubSection />;
       default:
         return <DashboardSection />;
     }
