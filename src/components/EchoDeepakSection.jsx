@@ -10,7 +10,7 @@ const EchoDeepakSection = () => {
     uptime: 'N/A'
   });
   const [activeCategory, setActiveCategory] = useState('general');
-  const [apiKey, setApiKey] = useState('AIzaSyAQ6F1gqBVM7n8Yai6bVGFnTsPadIHXKjQ');
+  const [apiKey, setApiKey] = useState(process.env.REACT_APP_API_KEY || '');
   const [selectedProvider, setSelectedProvider] = useState('gemini');
   const [isApiConfigured, setIsApiConfigured] = useState(false);
   const [apiError, setApiError] = useState('');
